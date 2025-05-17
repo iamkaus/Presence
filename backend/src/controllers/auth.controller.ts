@@ -119,9 +119,6 @@ export const signIn =  async (req: Request, res: Response, next: NextFunction): 
             {
                 where: {
                     email: email
-                },
-                omit: {
-                    password: true,
                 }
             }
         );
@@ -134,7 +131,9 @@ export const signIn =  async (req: Request, res: Response, next: NextFunction): 
             return;
         }
 
-        const userToken = jwt.sign({
+        const { password: _, ...safeUser} = user;
+
+        const userToken: string = jwt.sign({
             userId: user.id
         }, JWT_SECRET, {
             expiresIn: '1d'
@@ -145,7 +144,7 @@ export const signIn =  async (req: Request, res: Response, next: NextFunction): 
             message: 'User successfully signed in.',
             data: {
                 token: userToken,
-                user: user
+                user: safeUser
             }
         });
 
