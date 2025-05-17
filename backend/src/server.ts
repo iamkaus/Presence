@@ -1,9 +1,10 @@
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
+import authRoutes from "./routes/auth.routes";
+import { PORT } from './config/env.config'
 
 (async (): Promise<void> => {
 
-    const PORT: number = 3000;
     const app: Application = express();
 
     app.use(cors());
@@ -16,6 +17,8 @@ import cors from 'cors';
             message: 'Welcome to Presence API.'
         });
     });
+
+    app.use('/api/v1/auth', authRoutes)
 
     app.listen(PORT, (): void => {
         console.log(`Presence API server is running on: http://localhost:${PORT}`);
