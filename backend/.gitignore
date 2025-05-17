@@ -137,4 +137,4 @@ dist
 
 .idea
 
-src/generated
+/src/generated
